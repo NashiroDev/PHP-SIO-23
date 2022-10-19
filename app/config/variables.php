@@ -1,0 +1,1 @@
+<?php $rootTemplates = '/app/templates/'; ?>
