@@ -1,10 +1,15 @@
 <header>
-        <nav>
-            <h3>Acceuil</h3>
-            <ul>
-                <li><a href=#>Lien 1</a></li>
-                <li><a href=#>Lien 2</a></li>
-                <li><a href=#>Lien 3</a></li>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="logo">
+                <a href="/"><b>My App PHP</b></a>
+            </div>
+            <ul class="navbar-list">
+                <li><a href=contact.php>Contact</a></li>
+                <?php if (isset($_SESSION['LOGGED_USER'])) : ?>
+                <li><a href="logout.php">Déconnexion</a></li>
+                <?php endif; ?>
             </ul>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>

@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include_once('config/variables.php');
 
 if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -23,6 +26,9 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="<?= $stylePath ?>main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <title>Contact</title>
 </head>
 <body>
@@ -34,7 +40,10 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 <p>Tu t'appelles <?= strip_tags($_POST['nom']) ?> et tu as <?= strip_tags($_POST['age']) ?> ans.</p>
                 <?= isset($uploaded) ? '<p> Ton fichier a bien été uploadé</p>' : null ?>
             <?php else : ?>
-                <h1>Erreur, vous devez soumettre le formulaire</h1>
+                <div class="alert alert-danger">
+                    <p>Erreur, vous devez soumettre le formulaire</p>
+                </div>
+
             <?php endif; ?>
         </section>
     </main>

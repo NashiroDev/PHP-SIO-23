@@ -1,1 +1,4 @@
-<?php $rootTemplates = '/app/templates/'; ?>
+<?php 
+$rootTemplates = '/app/templates/';
+$stylePath = '/assets/styles/';
+?>
