@@ -3,14 +3,8 @@
 session_start(); //on top
 
 include_once('config/variables.php');
-$users = [
-    [
-    'nom' => 'Pauchon',
-    'prenom' => 'Nathan',
-    'email' => 'nathan.pauchon@les-charmilles.fr',
-    'password' => '1234',
-    ],
-];
+include_once('requests/users.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -31,28 +25,24 @@ $users = [
 <?php include_once($rootTemplates . 'header.php'); ?>
 
     <main>
-
-        <?php include_once($rootTemplates . 'login.php'); ?>
-
-        <?php if(isset($_SESSION['LOGGED_USER'])) : ?>
-            <section>
-                <form action="contact.php" method="POST" enctype="multipart/form-data">
-                    <div>
-                        <label for ="nom">Votre nom:</label>
-                        <input type="text" name="nom">
-                    </div>
-                    <div>
-                        <label for ="age">Votre age:</label>
-                        <input type="number" name="age">
-                    </div>
-                    <div>
-                        <label for ="image">Votre image:</label>
-                        <input type="file" name="image">
-                    </div>
-                    <button type="submit">Envoyer</button>
-                </form>
-            </section>
-        <?php endif; ?>
+        <section>
+            <?php var_dump(findAllUsers()); ?>
+            <form action="contact.php" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label for ="nom">Votre nom:</label>
+                    <input type="text" name="nom">
+                </div>
+                <div>
+                    <label for ="age">Votre age:</label>
+                    <input type="number" name="age">
+                </div>
+                <div>
+                    <label for ="image">Votre image:</label>
+                    <input type="file" name="image">
+                </div>
+                <button type="submit">Envoyer</button>
+            </form>
+        </section>
     </main>
 
 <?php include_once($rootTemplates . 'footer.php'); ?>

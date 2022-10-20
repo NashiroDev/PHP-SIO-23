@@ -1,21 +1,23 @@
-<?php 
+<?php
 
 //validation du formulaire
 if (isset($_POST['email']) && isset($_POST['password'])) {
-    foreach($users as $user) {
-        if ($user['email'] === $_POST['email'] && $user['password'] === $_POST['password']) { 
-            $_SESSION['LOGGED_USER'] = [
-                'email' => $user['email'],
-                'nom' => $user['nom'],
-                'prenom' => $user['prenom'],
-            ];
-        } else {
-            $errorMessage = sprintf(
-                "Les informations envoyées ne permettent pas de vous identifier : (%s/%s)",
-                $_POST['email'],
-                $_POST['password'],
-            );
-        }
+
+    $user = findUserByEmail($_POST['email']);
+
+    if ($user && password_verify($_POST['password'], $user['password'])) {
+        //email trouvé en bdd
+        $_SESSION['LOGGED_USER'] = [
+            'email' => $user['email'],
+            'nom' => $user['nom'],
+            'prenom' => $user['prenom'],
+        ];
+    } else {
+        $errorMessage = sprintf(
+            "Les informations envoyées ne permettent pas de vous identifier : (%s/%s)",
+            $_POST['email'],
+            $_POST['password'],
+        );
     }
 }
 
@@ -23,16 +25,16 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
 <?php if (!isset($_SESSION['LOGGED_USER'])) : ?>
     <section>
-        <div class="form-login-area">
+        <div class="form-content">
             <h1>Connectez-vous</h1>
             <p>Pour avoir accès au site</p>
-            <form action="/" class="form-login" method="POST">
+            <form action="<?= $_SERVER['REQUEST_URI']; ?>" class="form-login" method="POST">
                 <?php if (isset($errorMessage)) : ?>
                 <div class="alert alert-danger">
                     <?= $errorMessage ?>
                 </div>
                 <?php endif; ?> 
-                <div class="form-login-input">
+                <div class="form-raw">
                     <div class="input-group">
                         <label for="email">Email:</label>
                         <input type="email" name="email">
@@ -46,8 +48,4 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             </form>
         </div>
     </section>
-<?php else : ?>
-    <div class="alert alert-success">
-        <p>Bonjour <strong><?php echo $_SESSION['LOGGED_USER']['prenom']." ". $_SESSION['LOGGED_USER']['nom']; ?></strong> et bienvenu sur le site !</p>
-    </div>
 <?php endif; 
