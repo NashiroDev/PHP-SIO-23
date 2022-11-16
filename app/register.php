@@ -11,18 +11,26 @@ if (
     && !empty($_POST['email'])
     && !empty($_POST['password'])
 ) {
-    $email = strip_tags($_POST['email']);
-    $nom = strip_tags($_POST['nom']);
-    $prenom = strip_tags($_POST['prenom']);
-    $password = $_POST['password'];
+    $token = filter_input(INPUT_POST, 'token', FILTER_DEFAULT);
 
-    $isEmailExist = findUserByEmail($email);
-
-    if (!$isEmailExist) {
-        $response = addUser($nom, $prenom, $email, $password);
+    if ($token || $token !== $_SESSION['token']) {
+        $errorMessage = 'une erreur est survenue, token invalide.';
     } else {
-        $errorMessage = "L'email est déja utilisé par un autre compte";
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_SPECIAL_CHARS);
+        $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = $_POST['password'];
+
+        $isEmailExist = findUserByEmail($email);
+
+        if (!$isEmailExist) {
+            $response = addUser($nom, $prenom, $email, $password);
+        } else {
+            $errorMessage = "L'email est déja utilisé par un autre compte";
+        }
     }
+} else {
+    $_SESSION['token'] = bin2hex(random_bytes(35));
 }
 
 
@@ -75,6 +83,7 @@ if (
                             <label for ="password">Password:</label>
                             <input type="password" name="password" placeholder="Ox6AfT4ZjjF5afee" required>
                         </div>
+                        <input type="hidden" name="token value="<?= $_SESSION['token'] ?>">
                     </div>  
                     <button type="submit" class="btn btn-primary">S'inscrire</button>  
                 </form>

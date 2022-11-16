@@ -17,7 +17,7 @@ include_once($rootPath.'config/mysql.php');
     <link rel="shortcut icon" href="./assets/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?= $stylePath ?>main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <title>ADMIN - My App PHP</title>
+    <title>ADMIN - Users</title>
 </head>
 
 <body>
@@ -28,7 +28,8 @@ include_once($rootPath.'config/mysql.php');
         <?php include_once($rootTemplates . 'login.php'); ?>
         <?php if(isset($_SESSION['LOGGED_USER']) && in_array('ROLE_ADMIN', $_SESSION['LOGGED_USER']['roles'])) : ?>
             <section>
-                <h1>Administration du site</h1>
+                <h1>Administration des users</h1>
+                <?php var_dump(findAllUsers()); ?>
             </section>
         <?php elseif (isset($_SESSION['LOGGED_USER'])) : ?>
             <section>

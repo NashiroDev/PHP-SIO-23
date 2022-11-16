@@ -8,9 +8,11 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     if ($user && password_verify($_POST['password'], $user['password'])) {
         //email trouvé en bdd
         $_SESSION['LOGGED_USER'] = [
+            'id' => $user['id'],
             'email' => $user['email'],
             'nom' => $user['nom'],
             'prenom' => $user['prenom'],
+            'roles' => json_decode($user['roles']),
         ];
     } else {
         $errorMessage = sprintf(
