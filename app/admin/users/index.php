@@ -38,7 +38,14 @@ $_SESSION['token'] = bin2hex(random_bytes(35));
                     <?php foreach(findAllUsers() as $user) : ?>
                         <div class="card">
                             <div class="card-body">
-                                <h2 class=card-title><?= "$user[nom] $user[prenom]"; ?></h2>
+                                <div class="card-title">
+                                    <?php if ($user['image']) : ?>
+                                        <div class="card-img">
+                                            <img src="/uploads/users/<?= $user['image']; ?>" alt="<?= "$user[nom] $user[prenom]"; ?>">
+                                        </div>
+                                    <?php endif; ?>
+                                    <h2><?= "$user[nom] $user[prenom]"; ?></h2>
+                                </div>
                                 <p class="card-text">
                                     <b>Email</b> : <?= strip_tags($user['email']); ?>
                                 </p>

@@ -13,7 +13,7 @@ if (
 ) {
     $token = filter_input(INPUT_POST, 'token', FILTER_DEFAULT);
 
-    if ($token || $token !== $_SESSION['token']) {
+    if (!$token || $token !== $_SESSION['token']) {
         $errorMessage = 'une erreur est survenue, token invalide.';
     } else {
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -21,12 +21,32 @@ if (
         $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = $_POST['password'];
 
+        if(isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+            if($_FILES['image']['size'] < 8000000) {
+                $fileInfo = pathinfo($_FILES['image']['name']);
+                $extension = $fileInfo['extension'];
+                $extensionAllowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                if(in_array($extension, $extensionAllowed)) {
+                    $imageUploadName = str_replace(' ', '_', $fileInfo['filename']) . (new DateTime())->format('Y-m-d_H:i:s'). '.' . $fileInfo['extension'];
+
+                    move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/users/' . $imageUploadName);
+
+
+                } else {
+                    $errorMessage = "Fichier invalide, veuillez télécharger un fichier de type image.";
+                }
+            } else {
+                $errorMessage = "Fichier trop volumineux, la limite est de 8M";
+            }
+        }
+
         $isEmailExist = findUserByEmail($email);
 
-        if (!$isEmailExist) {
-            $response = addUser($nom, $prenom, $email, $password);
+        if (!$isEmailExist && !isset($errorMessage)) {
+            $response = addUser($nom, $prenom, $email, $password, isset($imageUploadName) ? $imageUploadName : null);
         } else {
-            $errorMessage = "L'email est déja utilisé par un autre compte";
+            $errorMessage = isset($errorMessage) ? $errorMessage : "L'email est déja utilisé par un autre compte";
         }
     }
 } else {
@@ -63,7 +83,7 @@ if (
                         <p><?= $errorMessage; ?></p>
                     </div>
                 <?php endif; ?>
-                <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="POST" class="form form-register">
+                <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="POST" class="form form-register" enctype="multipart/form-data">
                     <div class="form-raw">
                         <div class="input-group">
                             <label for ="nom">Nom:</label>
@@ -83,8 +103,14 @@ if (
                             <label for ="password">Password:</label>
                             <input type="password" name="password" placeholder="Ox6AfT4ZjjF5afee" required>
                         </div>
-                        <input type="hidden" name="token value="<?= $_SESSION['token'] ?>">
-                    </div>  
+                    </div>
+                    <div class="form-raw">
+                        <div class="input-group">
+                            <label for="image">Image :</label>
+                            <input type=file name="image">
+                        </div>
+                    </div>
+                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
                     <button type="submit" class="btn btn-primary">S'inscrire</button>  
                 </form>
             </div>

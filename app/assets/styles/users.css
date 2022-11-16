@@ -16,3 +16,20 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.card-title {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.card-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.card-img img {
+    width: 100%;
+}

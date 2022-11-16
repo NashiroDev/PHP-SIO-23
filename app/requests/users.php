@@ -69,19 +69,20 @@ function findUserByEmail(string $email): array|bool
  * @param array $roles
  * @return boolean
  */
-function addUser(string $nom, string $prenom, string $email, string $plainPassword, array $roles = ['ROLE_USER']): bool
+function addUser(string $nom, string $prenom, string $email, string $plainPassword, ?string $image = null, array $roles = ['ROLE_USER']): bool
 {
     global $db;
 
     try {
-        $query = "INSERT INTO utilisateurs(nom, prenom, email, password, roles) VALUE (:nom, :prenom, :email, :password, :roles)";
+        $query = "INSERT INTO utilisateurs(nom, prenom, email, password, roles, image) VALUE (:nom, :prenom, :email, :password, :roles, :image)";
         $sqlStatement = $db->prepare($query);
         $sqlStatement->execute([
             'nom' => $nom,
             'prenom' => $prenom,
             'email' => $email,
             'password' => password_hash($plainPassword, PASSWORD_DEFAULT),
-            'roles' => json_encode($roles), 
+            'roles' => json_encode($roles),
+            'image' => $image,
         ]);
     } catch(PDOException $e) {
 
@@ -121,8 +122,28 @@ function updateUser(int $id, string $nom, string $prenom, string $email, array $
     }
     return true;
 }
+/**
+ * Delete a user from his id
+ *
+ * @param integer $id
+ * @return boolean
+ */
+function deleteUser(int $id): bool
+{
+    global $db;
 
+    try {
+        $query = "DELETE FROM utilisateurs WHERE id = :id";
+        $sqlStatement = $db->prepare($query);
+        $sqlStatement->execute([
+            'id' => $id,
+        ]);
 
+    } catch(PDOException $e) {
+        return false;
+    }
+    return true;
+}
 
 
 ?>
