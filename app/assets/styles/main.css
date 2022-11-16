@@ -122,10 +122,10 @@ section {
   padding: 10px 20px;
   border: none;
   border-radius: var(--border-radius);
-  font-size: 0.618em;
   font-weight: 900;
   cursor: pointer;
   transition: all 0.318s ease-in-out;
+  font-size: 14px;
 }
 
 .btn-primary {
@@ -135,6 +135,16 @@ section {
 .btn-primary:hover {
   background-color: var(--secondary);
   color: whitesmoke;
+}
+
+.btn-success {
+  background-color: rgba(72, 184, 122, 0.5);
+  border: 1px solid rgb(72, 184, 122);
+}
+
+.btn-danger {
+  background-color: rgba(184, 72, 72, 0.5);
+  border: 1px solid rgb(184, 72, 72);
 }
 
 .form-content {
