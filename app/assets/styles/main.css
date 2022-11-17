@@ -84,20 +84,20 @@ section {
 }
 
 .logo {
-    color: var(--secondary);
-    font-size: 1.618em;
+  color: var(--secondary);
+  font-size: 1.618em;
 }
 
 .navbar-content {
-    padding: 1em 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 1em 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-list {
-    display: flex;
-    gap: 1em;
+  display: flex;
+  gap: 1em;
 }
 
 .alert {
@@ -184,14 +184,20 @@ section {
   gap: 0.618em;
 }
 
-input {
+.select-path {
+  padding: 1.618em;
+  justify-content: center;
+}
+
+input,
+textarea {
   padding: 5px;
   border: 1px solid var(--primary);
   border-radius: var(--border-radius);
 }
 
 footer {
-    background-color: var(--primary);
-    padding: 0.618em;
-    text-align: center;
+  background-color: var(--primary);
+  padding: 0.618em;
+  text-align: center;
 }

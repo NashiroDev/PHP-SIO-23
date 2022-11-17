@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 session_start(); //on top
 
@@ -21,18 +21,16 @@ if (
         $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = $_POST['password'];
 
-        if(isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-            if($_FILES['image']['size'] < 8000000) {
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+            if ($_FILES['image']['size'] < 8000000) {
                 $fileInfo = pathinfo($_FILES['image']['name']);
                 $extension = $fileInfo['extension'];
                 $extensionAllowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-                if(in_array($extension, $extensionAllowed)) {
-                    $imageUploadName = str_replace(' ', '_', $fileInfo['filename']) . (new DateTime())->format('Y-m-d_H:i:s'). '.' . $fileInfo['extension'];
+                if (in_array($extension, $extensionAllowed)) {
+                    $imageUploadName = str_replace(' ', '_', $fileInfo['filename']) . (new DateTime())->format('Y-m-d_H:i:s') . '.' . $fileInfo['extension'];
 
                     move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/users/' . $imageUploadName);
-
-
                 } else {
                     $errorMessage = "Fichier invalide, veuillez télécharger un fichier de type image.";
                 }
@@ -64,57 +62,56 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./assets/favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="<?= $stylePath ?>main.css">
-    <link rel="stylesheet" href="<?= $stylePath ?>index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <title>Inscription - My App PHP</title>
 </head>
 
 <body>
-    
-<?php include_once($rootTemplates . 'header.php'); ?>
+
+    <?php include_once($rootTemplates . 'header.php'); ?>
 
     <main>
         <section>
             <?php if (!isset($response)) : ?>
-            <div class="form-content">
-                <h1>Inscription</h1>
-                <?php if (isset($errorMessage)) : ?>
-                    <div class="alert alert-danger">
-                        <p><?= $errorMessage; ?></p>
-                    </div>
-                <?php endif; ?>
-                <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="POST" class="form form-register" enctype="multipart/form-data">
-                    <div class="form-raw">
-                        <div class="input-group">
-                            <label for ="nom">Nom:</label>
-                            <input type="text" name="nom" placeholder="Doe" required>
+                <div class="form-content">
+                    <h1>Inscription</h1>
+                    <?php if (isset($errorMessage)) : ?>
+                        <div class="alert alert-danger">
+                            <p><?= $errorMessage; ?></p>
                         </div>
-                        <div class="input-group">
-                            <label for ="prenom">Prénom:</label>
-                            <input type="text" name="prenom" placeholder="John" required>
+                    <?php endif; ?>
+                    <form action="<?php $_SERVER['REQUEST_URI']; ?>" method="POST" class="form form-register" enctype="multipart/form-data">
+                        <div class="form-raw">
+                            <div class="input-group">
+                                <label for="nom">Nom:</label>
+                                <input type="text" name="nom" placeholder="Doe" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="prenom">Prénom:</label>
+                                <input type="text" name="prenom" placeholder="John" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-raw">
-                        <div class="input-group">
-                            <label for ="email">Email:</label>
-                            <input type="email" name="email" placeholder="john.doe@exemple.fr" required>
+                        <div class="form-raw">
+                            <div class="input-group">
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" placeholder="john.doe@exemple.fr" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="password">Password:</label>
+                                <input type="password" name="password" placeholder="Ox6AfT4ZjjF5afee" required>
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label for ="password">Password:</label>
-                            <input type="password" name="password" placeholder="Ox6AfT4ZjjF5afee" required>
+                        <div class="form-raw">
+                            <div class="input-group">
+                                <label for="image">Image :</label>
+                                <input type=file name="image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-raw">
-                        <div class="input-group">
-                            <label for="image">Image :</label>
-                            <input type=file name="image">
-                        </div>
-                    </div>
-                    <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
-                    <button type="submit" class="btn btn-primary">S'inscrire</button>  
-                </form>
-            </div>
-            <?php else: ?>
+                        <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
+                        <button type="submit" class="btn btn-primary">S'inscrire</button>
+                    </form>
+                </div>
+            <?php else : ?>
                 <?php if ($response) : ?>
                     <div class="alert alert-success">
                         <p>Vous êtes bien inscrit sur notre application.</p>
@@ -128,7 +125,7 @@ if (
         </section>
     </main>
 
-<?php include_once($rootTemplates . 'footer.php'); ?>
+    <?php include_once($rootTemplates . 'footer.php'); ?>
 
 </body>
 

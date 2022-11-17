@@ -7,12 +7,12 @@ include_once('/app/config/mysql.php');
  *
  * @return array
  */
-function findAllUsers(): array 
+function findAllUsers(): array
 {
     global $db;
 
     $query = 'SELECT * FROM utilisateurs';
-    /** @var PDO $db */
+
     $sqlStatement = $db->prepare($query);
     $sqlStatement->execute();
 
@@ -32,7 +32,7 @@ function findUserById(int $id): array|bool
     $query = "SELECT u.id, u.nom, u.prenom, u.email, u.roles, u.image FROM utilisateurs u WHERE u.id = :id";
     $sqlStatement = $db->prepare($query);
     $sqlStatement->execute([
-        'id'=> $id,
+        'id' => $id,
     ]);
 
     return $sqlStatement->fetch();
@@ -84,7 +84,7 @@ function addUser(string $nom, string $prenom, string $email, string $plainPasswo
             'roles' => json_encode($roles),
             'image' => $image,
         ]);
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
 
         var_dump($e->getMessage());
         return false;
@@ -118,7 +118,7 @@ function updateUser(int $id, string $nom, string $prenom, string $email, array $
             'roles' => json_encode($roles),
             'image' => $image,
         ]);
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         return false;
     }
     return true;
@@ -139,12 +139,8 @@ function deleteUser(int $id): bool
         $sqlStatement->execute([
             'id' => $id,
         ]);
-
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         return false;
     }
     return true;
 }
-
-
-?>
