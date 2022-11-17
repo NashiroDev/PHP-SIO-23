@@ -29,7 +29,7 @@ function findUserById(int $id): array|bool
 {
     global $db;
 
-    $query = "SELECT u.id, u.nom, u.prenom, u.email, u.roles FROM utilisateurs u WHERE u.id = :id";
+    $query = "SELECT u.id, u.nom, u.prenom, u.email, u.roles, u.image FROM utilisateurs u WHERE u.id = :id";
     $sqlStatement = $db->prepare($query);
     $sqlStatement->execute([
         'id'=> $id,
@@ -103,12 +103,12 @@ function addUser(string $nom, string $prenom, string $email, string $plainPasswo
  * @param array $roles
  * @return boolean
  */
-function updateUser(int $id, string $nom, string $prenom, string $email, array $roles = ['ROLE_USER']): bool
+function updateUser(int $id, string $nom, string $prenom, string $email, array $roles = ['ROLE_USER'], ?string $image = null): bool
 {
     global $db;
 
     try {
-        $query = "UPDATE utilisateurs SET nom = :nom, prenom = :prenom, email = :email, id = :id, roles = :roles WHERE id = :id";
+        $query = "UPDATE utilisateurs SET nom = :nom, prenom = :prenom, email = :email, id = :id, roles = :roles, image = :image WHERE id = :id";
         $sqlStatement = $db->prepare($query);
         $sqlStatement->execute([
             'id' => $id,
@@ -116,6 +116,7 @@ function updateUser(int $id, string $nom, string $prenom, string $email, array $
             'prenom' => $prenom,
             'email' => $email,
             'roles' => json_encode($roles),
+            'image' => $image,
         ]);
     } catch(PDOException $e) {
         return false;

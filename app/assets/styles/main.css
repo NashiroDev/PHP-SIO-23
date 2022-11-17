@@ -165,6 +165,19 @@ section {
   margin-bottom: 1em;
 }
 
+.form-img {
+  width: 50%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.form-img img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  object-position: top;
+}
+
 .input-group {
   display: flex;
   align-items: center;
