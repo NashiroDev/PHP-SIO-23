@@ -1,0 +1,35 @@
+.list-users {
+    margin: 2em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+}
+
+.card {
+    border: 1px solid var(--secondary);
+    border-radius: 8px;
+    padding: 1.618em;
+}
+
+.card-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.card-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.card-img img {
+    width: 100%;
+}
